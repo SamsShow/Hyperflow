@@ -13,6 +13,7 @@ const twitterClient = new TwitterApi(bearerToken);
 const roClient = twitterClient.readOnly;
 
 // Initialize sentiment analyzer
+const tokenizer = new natural.WordTokenizer();
 const analyzer = new natural.SentimentAnalyzer(
   "English",
   natural.PorterStemmer,
@@ -102,4 +103,51 @@ export function calculateOverallSentiment(tweets: any[]) {
     totalWeight > 0 ? totalWeightedSentiment / totalWeight : 0;
 
   return overallSentiment;
+}
+
+/**
+ * Analyze sentiment of tweets using Natural.js SentimentAnalyzer
+ * This function handles tweets with or without pre-assigned sentiment
+ * @param tweets Array of tweet objects with text content
+ * @returns Number representing average sentiment (-1 to 1 scale)
+ */
+export function analyzeTweetSentiment(tweets: any[]) {
+  if (!tweets || tweets.length === 0) {
+    return 0;
+  }
+
+  // Initialize the sentiment analyzer from Natural.js
+  const analyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+  
+  let totalSentiment = 0;
+  let validTweets = 0;
+  
+  for (const tweet of tweets) {
+    // Skip invalid tweets
+    if (!tweet || !tweet.text) continue;
+    
+    // If tweet already has a valid sentiment score, use it
+    if (typeof tweet.sentiment === 'number' && !isNaN(tweet.sentiment)) {
+      totalSentiment += tweet.sentiment;
+      validTweets++;
+      continue;
+    }
+    
+    // Otherwise, analyze the text
+    const words = new natural.WordTokenizer().tokenize(tweet.text);
+    if (!words || words.length === 0) continue;
+    
+    const sentimentScore = analyzer.getSentiment(words);
+    
+    // Only count valid sentiment scores
+    if (typeof sentimentScore === 'number' && !isNaN(sentimentScore)) {
+      // Store the sentiment on the tweet object for future use
+      tweet.sentiment = sentimentScore;
+      totalSentiment += sentimentScore;
+      validTweets++;
+    }
+  }
+  
+  // Return average sentiment, or 0 if no valid tweets
+  return validTweets > 0 ? totalSentiment / validTweets : 0;
 }
