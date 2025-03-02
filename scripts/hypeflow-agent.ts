@@ -51,14 +51,21 @@ const CONFIG: {
 // Aptos client is initialized from src/lib/aptos.ts
 
 // Initialize Twitter client for posting results
-const twitterClient = process.env.TWITTER_API_KEY
-  ? new TwitterApi({
-      appKey: process.env.TWITTER_API_KEY || "",
-      appSecret: process.env.TWITTER_API_SECRET || "",
-      accessToken: process.env.TWITTER_ACCESS_TOKEN || "",
-      accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
-    })
-  : null;
+let twitterClient = null;
+if (
+  process.env.TWITTER_API_KEY &&
+  process.env.TWITTER_API_SECRET &&
+  process.env.TWITTER_ACCESS_TOKEN &&
+  process.env.TWITTER_ACCESS_TOKEN_SECRET
+) {
+  // For posting tweets we need user context auth (not just bearer token)
+  twitterClient = new TwitterApi({
+    appKey: process.env.TWITTER_API_KEY,
+    appSecret: process.env.TWITTER_API_SECRET,
+    accessToken: process.env.TWITTER_ACCESS_TOKEN,
+    accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+  });
+}
 
 /**
  * Log message to file and console

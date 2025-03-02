@@ -5,14 +5,9 @@ import natural from "natural";
 // Load environment variables
 dotenv.config();
 
-// Initialize Twitter client
-const twitterClient = new TwitterApi({
-  appKey: process.env.TWITTER_API_KEY || "",
-  appSecret: process.env.TWITTER_API_SECRET || "",
-  accessToken: process.env.TWITTER_ACCESS_TOKEN || "",
-  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
-  bearerToken: process.env.TWITTER_BEARER_TOKEN || "",
-});
+// Initialize Twitter client - use bearerToken for read-only operations
+const bearerToken = process.env.TWITTER_BEARER_TOKEN || "";
+const twitterClient = new TwitterApi(bearerToken);
 
 // Create a read-only client
 const roClient = twitterClient.readOnly;
