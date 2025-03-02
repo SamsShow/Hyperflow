@@ -168,3 +168,15 @@
 [2025-03-02T19:15:02.685Z] Would execute: Buy 70 APT
 [2025-03-02T19:15:02.685Z] Would have posted to Twitter: HypeFlow AI just bought 70 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
 [2025-03-02T19:15:02.685Z] HypeFlow AI agent run complete
+[2025-03-02T19:30:03.476Z] Starting HypeFlow AI agent run...
+[2025-03-02T19:30:03.480Z] Getting mock tweets for #Aptos...
+[2025-03-02T19:30:03.482Z] Scheduling future runs every 10 minutes
+[2025-03-02T19:30:03.484Z] Found 20 mock tweets for #Aptos
+[2025-03-02T19:30:03.485Z] Analyzing 20 unique tweets
+[2025-03-02T19:30:03.699Z] Overall sentiment score: 0.8175
+[2025-03-02T19:30:03.704Z] Decision: BUY (Confidence: 0.70)
+[2025-03-02T19:30:03.705Z] Reason: Positive sentiment (0.82) above threshold (0.4). Recommend buying.
+[2025-03-02T19:30:03.707Z] Executing on-chain action: BUY amount=70 confidence=0.70
+[2025-03-02T19:30:03.708Z] Would execute: Buy 70 APT
+[2025-03-02T19:30:03.709Z] Would have posted to Twitter: HypeFlow AI just bought 70 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-02T19:30:03.710Z] HypeFlow AI agent run complete
