@@ -180,3 +180,55 @@
 [2025-03-02T19:30:03.708Z] Would execute: Buy 70 APT
 [2025-03-02T19:30:03.709Z] Would have posted to Twitter: HypeFlow AI just bought 70 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
 [2025-03-02T19:30:03.710Z] HypeFlow AI agent run complete
+[2025-03-02T20:07:47.340Z] Starting HypeFlow AI agent run...
+[2025-03-02T20:07:47.344Z] Getting mock tweets for #Aptos...
+[2025-03-02T20:07:47.345Z] Scheduling future runs every 10 minutes
+[2025-03-02T20:07:47.346Z] Found 20 mock tweets for #Aptos
+[2025-03-02T20:07:47.348Z] Analyzing 20 unique tweets
+[2025-03-02T20:07:47.553Z] Overall sentiment score: 0.8175
+[2025-03-02T20:07:47.557Z] Decision: BUY (Confidence: 0.70)
+[2025-03-02T20:07:47.558Z] Reason: Positive sentiment (0.82) above threshold (0.4). Recommend buying.
+[2025-03-02T20:07:47.560Z] Executing on-chain action: BUY amount=70 confidence=0.70
+[2025-03-02T20:07:47.561Z] Would execute: Buy 70 APT
+[2025-03-02T20:07:47.561Z] Would have posted to Twitter: HypeFlow AI just bought 70 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-02T20:07:47.563Z] HypeFlow AI agent run complete
+[2025-03-02T20:23:14.062Z] Starting HypeFlow AI agent run...
+[2025-03-02T20:23:14.065Z] Getting mock tweets for #Aptos...
+[2025-03-02T20:23:14.067Z] Scheduling future runs every 10 minutes
+[2025-03-02T20:23:14.069Z] Found 20 mock tweets for #Aptos
+[2025-03-02T20:23:14.071Z] Analyzing 20 unique tweets
+[2025-03-02T20:23:14.341Z] Overall sentiment score: 0.2297
+[2025-03-02T20:23:14.346Z] Decision: HOLD (Confidence: 0.50)
+[2025-03-02T20:23:14.347Z] Reason: Neutral sentiment (0.23) within thresholds (-0.2 to 0.4). No action needed.
+[2025-03-02T20:23:14.348Z] Not taking action due to low confidence or HOLD recommendation
+[2025-03-02T20:23:14.349Z] HypeFlow AI agent run complete
+[2025-03-02T20:28:10.295Z] Starting HypeFlow AI agent run...
+[2025-03-02T20:28:10.297Z] Getting mock tweets for #Aptos...
+[2025-03-02T20:28:10.298Z] Scheduling future runs every 10 minutes
+[2025-03-02T20:28:10.300Z] Found 15 mock tweets for #Aptos
+[2025-03-02T20:28:10.301Z] Analyzing 15 unique tweets
+[2025-03-02T20:28:10.490Z] Overall sentiment score: 0.3187
+[2025-03-02T20:28:10.493Z] Decision: HOLD (Confidence: 0.50)
+[2025-03-02T20:28:10.494Z] Reason: Neutral sentiment (0.32) within thresholds (-0.2 to 0.4). No action needed.
+[2025-03-02T20:28:10.495Z] Not taking action due to low confidence or HOLD recommendation
+[2025-03-02T20:28:10.496Z] HypeFlow AI agent run complete
+[2025-03-02T20:29:40.333Z] Starting HypeFlow AI agent run...
+[2025-03-02T20:29:40.335Z] Getting mock tweets for #Aptos...
+[2025-03-02T20:29:40.336Z] Scheduling future runs every 10 minutes
+[2025-03-02T20:29:40.339Z] Found 30 mock tweets for #Aptos
+[2025-03-02T20:29:40.341Z] Analyzing 30 unique tweets
+[2025-03-02T20:29:40.574Z] Overall sentiment score: 0.2983
+[2025-03-02T20:29:40.577Z] Decision: HOLD (Confidence: 0.50)
+[2025-03-02T20:29:40.578Z] Reason: Neutral sentiment (0.30) within thresholds (-0.2 to 0.4). No action needed.
+[2025-03-02T20:29:40.579Z] Not taking action due to low confidence or HOLD recommendation
+[2025-03-02T20:29:40.580Z] HypeFlow AI agent run complete
+[2025-03-02T20:31:32.960Z] Starting HypeFlow AI agent run...
+[2025-03-02T20:31:32.963Z] Getting mock tweets for #Aptos...
+[2025-03-02T20:31:32.964Z] Scheduling future runs every 10 minutes
+[2025-03-02T20:31:32.967Z] Found 30 mock tweets for #Aptos
+[2025-03-02T20:31:32.969Z] Analyzing 30 unique tweets
+[2025-03-02T20:31:33.305Z] Overall sentiment score: 0.4953
+[2025-03-02T20:31:33.309Z] Decision: BUY (Confidence: 0.16)
+[2025-03-02T20:31:33.310Z] Reason: Positive sentiment (0.50) above threshold (0.4). Recommend buying.
+[2025-03-02T20:31:33.311Z] Not taking action due to low confidence or HOLD recommendation
+[2025-03-02T20:31:33.312Z] HypeFlow AI agent run complete

@@ -1,8 +1,8 @@
 module HypeFlow::sentiment_trader {
     use std::signer;
-    use std::string::String;
+    use std::string::{Self, String};
+    use aptos_framework::account;
     use aptos_framework::event;
-    use aptos_framework::coin;
     use aptos_framework::timestamp;
     use aptos_std::table::{Self, Table};
     
@@ -64,7 +64,7 @@ module HypeFlow::sentiment_trader {
             current_sentiment: 0,
             is_invested: false,
             next_record_id: 0,
-            trade_events: event::new_event_handle<TradeEvent>(account),
+            trade_events: account::new_event_handle(account),
         });
     }
     
@@ -89,11 +89,12 @@ module HypeFlow::sentiment_trader {
         let record_id = state.next_record_id;
         let now = timestamp::now_seconds();
         
+        let pending_action = string::utf8(b"PENDING");
         table::add(&mut state.sentiment_history, record_id, SentimentRecord {
             timestamp: now,
             sentiment_score,
             tweet_volume,
-            action_taken: string::utf8(b"PENDING"),
+            action_taken: pending_action,
         });
         
         // Increment next record ID
@@ -121,24 +122,25 @@ module HypeFlow::sentiment_trader {
         let record_id = state.next_record_id;
         let now = timestamp::now_seconds();
         
+        let buy_action = string::utf8(b"BUY");
         table::add(&mut state.trade_history, record_id, TradeRecord {
             timestamp: now,
-            action: string::utf8(b"BUY"),
+            action: buy_action,
             amount,
             confidence,
         });
         
-        // Emit trade event
-        event::emit_event<TradeEvent>(
-            &mut state.trade_events,
-            TradeEvent {
-                timestamp: now,
-                action: string::utf8(b"BUY"),
-                amount,
-                confidence,
-                sentiment_score: state.current_sentiment,
-            },
-        );
+        // Create and emit trade event
+        let buy_action_event = string::utf8(b"BUY");
+        let trade_event = TradeEvent {
+            timestamp: now,
+            action: buy_action_event,
+            amount,
+            confidence,
+            sentiment_score: state.current_sentiment,
+        };
+        
+        event::emit_event(&mut state.trade_events, trade_event);
         
         // Update investment state
         state.is_invested = true;
@@ -147,6 +149,48 @@ module HypeFlow::sentiment_trader {
         state.next_record_id = record_id + 1;
     }
     
-    // Similar functions for SELL, DEPOSIT, WITHDRAW would be implemented here
-    // with appropriate logic for each operation
+    // Execute a sell operation based on sentiment
+    public entry fun execute_sell(
+        account: &signer,
+        amount: u64,
+        confidence: u64,
+    ) acquires HypeFlowState {
+        let account_addr = signer::address_of(account);
+        
+        assert!(exists<HypeFlowState>(account_addr), ERR_UNAUTHORIZED);
+        let state = borrow_global_mut<HypeFlowState>(account_addr);
+        
+        // Check that we are invested
+        assert!(state.is_invested, ERR_INSUFFICIENT_BALANCE);
+        
+        // Record the trade
+        let record_id = state.next_record_id;
+        let now = timestamp::now_seconds();
+        
+        let sell_action = string::utf8(b"SELL");
+        table::add(&mut state.trade_history, record_id, TradeRecord {
+            timestamp: now,
+            action: sell_action,
+            amount,
+            confidence,
+        });
+        
+        // Create and emit trade event
+        let sell_action_event = string::utf8(b"SELL");
+        let trade_event = TradeEvent {
+            timestamp: now,
+            action: sell_action_event,
+            amount,
+            confidence,
+            sentiment_score: state.current_sentiment,
+        };
+        
+        event::emit_event(&mut state.trade_events, trade_event);
+        
+        // Update investment state
+        state.is_invested = false;
+        
+        // Increment next record ID
+        state.next_record_id = record_id + 1;
+    }
 }

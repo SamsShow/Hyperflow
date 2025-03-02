@@ -23,7 +23,7 @@ import { appendFileSync } from "fs";
 import { TwitterApi } from "twitter-api-v2";
 import { fileURLToPath } from "url";
 import path from "path";
-import { mockTweets } from "../src/data/mockTweets";
+import { mockTweets } from "../src/data/mockTweets.js";
 
 // Get the current file path for ES modules
 const __filename = fileURLToPath(import.meta.url);
