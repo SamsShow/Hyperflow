@@ -9,6 +9,7 @@
 import {
   fetchTweetsWithSentiment,
   calculateOverallSentiment,
+  analyzeTweetSentiment,
 } from "../src/lib/twitter.js";
 import {
   makeDecision,
@@ -20,8 +21,9 @@ import { getAptosClient } from "../src/lib/aptos.js";
 import dotenv from "dotenv";
 import { appendFileSync } from "fs";
 import { TwitterApi } from "twitter-api-v2";
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { fileURLToPath } from "url";
+import path from "path";
+import { mockTweets } from "../src/data/mockTweets.js";
 
 // Get the current file path for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -56,22 +58,22 @@ const CONFIG: {
 
 // Aptos client is initialized from src/lib/aptos.ts
 
-// Initialize Twitter client for posting results
-let twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
-if (
-  process.env.TWITTER_API_KEY &&
-  process.env.TWITTER_API_SECRET &&
-  process.env.TWITTER_ACCESS_TOKEN &&
-  process.env.TWITTER_ACCESS_TOKEN_SECRET
-) {
-  // For posting tweets we need user context auth (not just bearer token)
-  twitterClient = new TwitterApi({
-    appKey: process.env.TWITTER_API_KEY,
-    appSecret: process.env.TWITTER_API_SECRET,
-    accessToken: process.env.TWITTER_ACCESS_TOKEN,
-    accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-  });
-}
+// Comment out Twitter API initialization
+// let twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
+// if (
+//   process.env.TWITTER_API_KEY &&
+//   process.env.TWITTER_API_SECRET &&
+//   process.env.TWITTER_ACCESS_TOKEN &&
+//   process.env.TWITTER_ACCESS_TOKEN_SECRET
+// ) {
+//   // For posting tweets we need user context auth (not just bearer token)
+//   twitterClient = new TwitterApi({
+//     appKey: process.env.TWITTER_API_KEY,
+//     appSecret: process.env.TWITTER_API_SECRET,
+//     accessToken: process.env.TWITTER_ACCESS_TOKEN,
+//     accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+//   });
+// }
 
 /**
  * Log message to file and console
@@ -87,18 +89,23 @@ function log(message: string) {
  * Post a status update to Twitter
  */
 async function postToTwitter(message: string) {
-  if (!CONFIG.twitterPostResults || !twitterClient) {
-    log("Twitter posting disabled or client not initialized");
-    return;
-  }
+  // Comment out Twitter posting functionality
+  // if (!CONFIG.twitterPostResults || !twitterClient) {
+  //   log("Twitter posting disabled or client not initialized");
+  //   return;
+  // }
 
-  try {
-    const response = await twitterClient.v2.tweet(message);
-    log(`Posted to Twitter: ${message}`);
-    return response;
-  } catch (error) {
-    log(`Error posting to Twitter: ${error}`);
-  }
+  // try {
+  //   const response = await twitterClient.v2.tweet(message);
+  //   log(`Posted to Twitter: ${message}`);
+  //   return response;
+  // } catch (error) {
+  //   log(`Error posting to Twitter: ${error}`);
+  // }
+
+  // Just log the message instead
+  log(`Would have posted to Twitter: ${message}`);
+  return null;
 }
 
 /**
@@ -153,6 +160,16 @@ async function executeOnChainAction(
   return true;
 }
 
+// Add hardcoded mock tweets function
+async function getMockTweetsWithSentiment(hashtag: string) {
+  return {
+    data: mockTweets,
+    meta: {
+      result_count: mockTweets.length,
+    },
+  };
+}
+
 /**
  * Main function that runs the HypeFlow AI agent
  */
@@ -164,12 +181,12 @@ async function runHypeFlowAgent() {
     let allTweets: any[] = [];
 
     for (const hashtag of CONFIG.hashtagsToTrack) {
-      log(`Fetching tweets for ${hashtag}...`);
-      const result = await fetchTweetsWithSentiment(hashtag);
-      log(`Found ${result.data.length} tweets for ${hashtag}`);
+      log(`Getting mock tweets for ${hashtag}...`);
+      // Replace fetchTweetsWithSentiment with our mock function
+      const result = await getMockTweetsWithSentiment(hashtag);
+      log(`Found ${result.data.length} mock tweets for ${hashtag}`);
       allTweets = [...allTweets, ...result.data];
     }
-    console.log(allTweets)
 
     // Remove duplicates
     const uniqueTweets = Array.from(
@@ -178,8 +195,9 @@ async function runHypeFlowAgent() {
     log(`Analyzing ${uniqueTweets.length} unique tweets`);
 
     // 2. Calculate overall sentiment
-    const overallSentiment = calculateOverallSentiment(uniqueTweets);
+    const overallSentiment = analyzeTweetSentiment(uniqueTweets);
     log(`Overall sentiment score: ${overallSentiment.toFixed(4)}`);
+    console.log(overallSentiment);
 
     // 3. Make investment decision
     const decisionResult = makeDecision(

@@ -5,14 +5,24 @@ import natural from "natural";
 // Load environment variables
 dotenv.config();
 
-// Initialize Twitter client - use bearerToken for read-only operations
+// Constants
+const SENTIMENT_THRESHOLDS = {
+  POSITIVE: 0.2,
+  NEGATIVE: -0.2,
+};
+
+const ENGAGEMENT_WEIGHTS = {
+  RETWEET: 2,
+  LIKE: 1,
+  BASE: 1, // Minimum weight per tweet
+};
+
+// Initialize Twitter client
 const bearerToken = process.env.TWITTER_BEARER_TOKEN || "";
-const twitterClient = new TwitterApi(bearerToken);
+const twitterClient = new TwitterApi(bearerToken).readOnly;
 
-// Create a read-only client
-const roClient = twitterClient.readOnly;
-
-// Initialize sentiment analyzer
+// Initialize sentiment analysis tools (singleton instances)
+const tokenizer = new natural.WordTokenizer();
 const analyzer = new natural.SentimentAnalyzer(
   "English",
   natural.PorterStemmer,
@@ -20,49 +30,93 @@ const analyzer = new natural.SentimentAnalyzer(
 );
 
 /**
- * Fetches tweets based on a hashtag or search query
- * @param query - Hashtag or search query to search for
- * @param maxResults - Maximum number of tweets to fetch (max 100)
- * @returns Array of tweets with sentiment scores
+ * Analyzes sentiment of a single tweet
+ * @param text Tweet text content
+ * @returns Sentiment score and classification
+ */
+function analyzeSingleTweet(text: string) {
+  const words = tokenizer.tokenize(text) || [];
+  const sentimentScore = analyzer.getSentiment(words);
+
+  return {
+    sentiment_score: sentimentScore,
+    sentiment:
+      sentimentScore > SENTIMENT_THRESHOLDS.POSITIVE
+        ? "positive"
+        : sentimentScore < SENTIMENT_THRESHOLDS.NEGATIVE
+          ? "negative"
+          : "neutral",
+  };
+}
+
+/**
+ * Calculates weighted sentiment based on engagement metrics
+ * @param tweets Array of analyzed tweets with engagement metrics
+ * @returns Overall weighted sentiment score
+ */
+function calculateWeightedSentiment(tweets: any[]) {
+  if (!tweets?.length) return 0;
+
+  const { totalWeightedSentiment, totalWeight } = tweets.reduce(
+    (acc, tweet) => {
+      const engagementWeight =
+        (tweet.public_metrics?.retweet_count || 0) *
+          ENGAGEMENT_WEIGHTS.RETWEET +
+        (tweet.public_metrics?.like_count || 0) * ENGAGEMENT_WEIGHTS.LIKE;
+
+      const weight = Math.max(engagementWeight, ENGAGEMENT_WEIGHTS.BASE);
+
+      return {
+        totalWeightedSentiment:
+          acc.totalWeightedSentiment + tweet.sentiment_score * weight,
+        totalWeight: acc.totalWeight + weight,
+      };
+    },
+    { totalWeightedSentiment: 0, totalWeight: 0 }
+  );
+
+  return totalWeight > 0 ? totalWeightedSentiment / totalWeight : 0;
+}
+
+/**
+ * Fetches and analyzes tweets based on a search query
+ * @param query Search query or hashtag
+ * @param maxResults Maximum number of tweets to fetch (max 100)
+ * @returns Analyzed tweets with sentiment and overall sentiment score
  */
 export async function fetchTweetsWithSentiment(
   query: string,
   maxResults: number = 5
 ) {
   try {
-    // Search tweets
-    const tweets = await roClient.v2.search(query, {
+    const tweets = await twitterClient.v2.search(query, {
       "tweet.fields": ["created_at", "public_metrics", "author_id"],
       max_results: maxResults,
     });
 
-    // Analyze sentiment for each tweet
-    const analyzedTweets = tweets.data.data.map((tweet) => {
-      const text = tweet.text;
-      // Perform sentiment analysis
-      const words = new natural.WordTokenizer().tokenize(text) || [];
-      const sentimentScore = analyzer.getSentiment(words);
+    // Analyze each tweet
+    const analyzedTweets = tweets.data.data.map((tweet) => ({
+      id: tweet.id,
+      text: tweet.text,
+      created_at: tweet.created_at,
+      author_id: tweet.author_id,
+      public_metrics: tweet.public_metrics,
+      ...analyzeSingleTweet(tweet.text),
+    }));
 
-      return {
-        id: tweet.id,
-        text: tweet.text,
-        created_at: tweet.created_at,
-        author_id: tweet.author_id,
-        public_metrics: tweet.public_metrics,
-        sentiment_score: sentimentScore,
-        // Classify sentiment: positive (> 0.2), neutral (between -0.2 and 0.2), negative (< -0.2)
-        sentiment:
-          sentimentScore > 0.2
-            ? "positive"
-            : sentimentScore < -0.2
-              ? "negative"
-              : "neutral",
-      };
-    });
+    // Calculate overall weighted sentiment
+    const overallSentiment = calculateWeightedSentiment(analyzedTweets);
 
     return {
       data: analyzedTweets,
       meta: tweets.data.meta,
+      overall_sentiment: overallSentiment,
+      overall_sentiment_label:
+        overallSentiment > SENTIMENT_THRESHOLDS.POSITIVE
+          ? "positive"
+          : overallSentiment < SENTIMENT_THRESHOLDS.NEGATIVE
+            ? "negative"
+            : "neutral",
     };
   } catch (error) {
     console.error("Error fetching tweets:", error);
@@ -102,4 +156,55 @@ export function calculateOverallSentiment(tweets: any[]) {
     totalWeight > 0 ? totalWeightedSentiment / totalWeight : 0;
 
   return overallSentiment;
+}
+
+/**
+ * Analyze sentiment of tweets using Natural.js SentimentAnalyzer
+ * This function handles tweets with or without pre-assigned sentiment
+ * @param tweets Array of tweet objects with text content
+ * @returns Number representing average sentiment (-1 to 1 scale)
+ */
+export function analyzeTweetSentiment(tweets: any[]) {
+  if (!tweets || tweets.length === 0) {
+    return 0;
+  }
+
+  // Initialize the sentiment analyzer from Natural.js
+  const analyzer = new natural.SentimentAnalyzer(
+    "English",
+    natural.PorterStemmer,
+    "afinn"
+  );
+
+  let totalSentiment = 0;
+  let validTweets = 0;
+
+  for (const tweet of tweets) {
+    // Skip invalid tweets
+    if (!tweet || !tweet.text) continue;
+
+    // If tweet already has a valid sentiment score, use it
+    if (typeof tweet.sentiment === "number" && !isNaN(tweet.sentiment)) {
+      totalSentiment += tweet.sentiment;
+      validTweets++;
+      continue;
+    }
+
+    // Otherwise, analyze the text
+    const words = new natural.WordTokenizer().tokenize(tweet.text);
+    if (!words || words.length === 0) continue;
+
+    const sentimentScore = analyzer.getSentiment(words);
+
+    // Only count valid sentiment scores
+    if (typeof sentimentScore === "number" && !isNaN(sentimentScore)) {
+      // Store the sentiment on the tweet object for future use
+      tweet.sentiment = sentimentScore;
+      totalSentiment += sentimentScore;
+      validTweets++;
+    }
+  }
+
+  // Return average sentiment, or 0 if no valid tweets
+  return validTweets > 0 ? totalSentiment / validTweets : 0;
 }
