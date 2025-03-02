@@ -1,4 +1,4 @@
-import { APTOS_API_KEY, NETWORK } from "@/constants";
+import { APTOS_API_KEY, NETWORK } from "../constants.js";
 import { Aptos, AptosConfig } from "@aptos-labs/ts-sdk";
 
 const APTOS_CLIENT = new Aptos(

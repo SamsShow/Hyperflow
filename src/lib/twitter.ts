@@ -1,5 +1,5 @@
 import { TwitterApi } from "twitter-api-v2";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import natural from "natural";
 
 // Load environment variables
@@ -27,7 +27,7 @@ const analyzer = new natural.SentimentAnalyzer(
  */
 export async function fetchTweetsWithSentiment(
   query: string,
-  maxResults: number = 50
+  maxResults: number = 5
 ) {
   try {
     // Search tweets

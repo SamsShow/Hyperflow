@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "license": "Apache-2.0",
+  "type": "module",
   "scripts": {
     "move:test": "node ./scripts/move/test",
     "move:compile": "node ./scripts/move/compile",
@@ -15,7 +16,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "_fmt": "prettier 'src/**/*.ts'",
     "fmt": "npm run _fmt -- --write",
-    "hypeflow:start": "ts-node scripts/hypeflow-agent.ts"
+    "hypeflow:start": "node --loader ts-node/esm scripts/hypeflow-agent.ts"
   },
   "dependencies": {
     "@aptos-labs/ts-sdk": "^1.30.0",

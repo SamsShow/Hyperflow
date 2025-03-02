@@ -9,17 +9,23 @@
 import {
   fetchTweetsWithSentiment,
   calculateOverallSentiment,
-} from "../src/lib/twitter";
+} from "../src/lib/twitter.js";
 import {
   makeDecision,
   adjustForDataAge,
   DecisionConfig,
   ActionType,
-} from "../src/lib/decisionLogic";
-import { getAptosClient } from "../src/lib/aptos";
-import * as dotenv from "dotenv";
+} from "../src/lib/decisionLogic.js";
+import { getAptosClient } from "../src/lib/aptos.js";
+import dotenv from "dotenv";
 import { appendFileSync } from "fs";
 import { TwitterApi } from "twitter-api-v2";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Get the current file path for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -33,11 +39,11 @@ const CONFIG: {
   logFilePath: string;
   twitterPostResults: boolean;
 } = {
-  hashtagsToTrack: ["#Aptos", "#AptosHype", "#AptosNFT", "#HypeFlowAI"],
+  hashtagsToTrack: ["#Aptos"],
   decisionConfig: {
     bullishThreshold: 0.4,
     bearishThreshold: -0.2,
-    minTweetVolume: 10, // Require at least 10 tweets for a decision
+    minTweetVolume: 2, // Require at least 10 tweets for a decision
     timeWindowMinutes: 60, // Look at last hour of tweets
     maxPositionSize: 100, // Maximum position size (adjust units as needed)
     currentlyInvested: false, // Start with no investment position
@@ -51,7 +57,7 @@ const CONFIG: {
 // Aptos client is initialized from src/lib/aptos.ts
 
 // Initialize Twitter client for posting results
-let twitterClient = null;
+let twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
 if (
   process.env.TWITTER_API_KEY &&
   process.env.TWITTER_API_SECRET &&
@@ -163,6 +169,7 @@ async function runHypeFlowAgent() {
       log(`Found ${result.data.length} tweets for ${hashtag}`);
       allTweets = [...allTweets, ...result.data];
     }
+    console.log(allTweets)
 
     // Remove duplicates
     const uniqueTweets = Array.from(
@@ -221,7 +228,10 @@ async function runHypeFlowAgent() {
 }
 
 // If this script is executed directly (not imported)
-if (require.main === module) {
+// ESM doesn't have require.main === module, so we use import.meta.url
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMainModule) {
   // Run immediately once
   runHypeFlowAgent();
 
