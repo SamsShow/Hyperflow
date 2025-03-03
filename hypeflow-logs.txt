@@ -368,3 +368,18 @@
 [2025-03-03T21:43:45.038Z] Current APT price: $15.75
 [2025-03-03T21:43:45.044Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
 [2025-03-03T21:43:45.047Z] HypeFlow AI agent run complete
+[2025-03-03T21:47:35.926Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:47:35.928Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:47:35.929Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:47:35.931Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:47:35.933Z] Analyzing 11 unique tweets
+[2025-03-03T21:47:36.244Z] Overall sentiment score: 0.7027
+[2025-03-03T21:47:36.248Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:47:36.250Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:47:36.255Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:47:36.257Z] Recording sentiment data on-chain...
+[2025-03-03T21:47:36.262Z] Sentiment recording result: mock-sentiment-tx-hash-1741038456261
+[2025-03-03T21:47:36.263Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:47:36.265Z] Would execute: Buy 50 APT
+[2025-03-03T21:47:36.270Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:47:36.272Z] HypeFlow AI agent run complete
