@@ -124,7 +124,7 @@ export const recordSentimentTrade = async (
   // Use the account's sendTransaction method to submit the transaction
   const txHash = await agent.account.sendTransaction({
     data: {
-      function: payload.function,
+      function: payload.function as `${string}::${string}::${string}`,
       typeArguments: payload.type_arguments,
       functionArguments: payload.arguments
     }
