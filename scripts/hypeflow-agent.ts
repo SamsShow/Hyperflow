@@ -46,6 +46,7 @@ const CONFIG: {
   checkIntervalMinutes: number;
   logFilePath: string;
   twitterPostResults: boolean;
+  mockMode: boolean;
 } = {
   hashtagsToTrack: ["#Aptos"],
   decisionConfig: {
@@ -60,6 +61,7 @@ const CONFIG: {
   checkIntervalMinutes: 10, // Check Twitter every 10 minutes
   logFilePath: "./hypeflow-logs.txt",
   twitterPostResults: true, // Whether to post results to Twitter
+  mockMode: process.env.MOCK_SWAPS === "true", // Use mock mode based on environment variable
 };
 
 // Aptos client is initialized from src/lib/aptos.ts
@@ -121,7 +123,7 @@ async function executeOnChainAction(
   action: ActionType,
   amount: number,
   confidence: number
-) {
+): Promise<boolean> {
   log(
     `Executing on-chain action: ${action} amount=${amount} confidence=${confidence.toFixed(2)}`
   );
@@ -129,7 +131,12 @@ async function executeOnChainAction(
   try {
     // Record sentiment trade on-chain regardless of action
     try {
-      await recordSentimentTrade(confidence * 2 - 1, confidence); // Convert confidence (0-1) to sentiment (-1 to 1)
+      log("Recording sentiment data on-chain...");
+      const sentimentResult = await recordSentimentTrade(
+        confidence * 2 - 1,
+        confidence
+      ); // Convert confidence (0-1) to sentiment (-1 to 1)
+      log(`Sentiment recording result: ${sentimentResult}`);
     } catch (sentimentError) {
       log(
         `Error recording sentiment: ${sentimentError instanceof Error ? sentimentError.message : String(sentimentError)}`
@@ -137,17 +144,54 @@ async function executeOnChainAction(
       // Continue execution even if sentiment recording fails
     }
 
-    // Check wallet balances before executing trades
-    const balances = await getWalletBalances();
-    const aptPrice = await getAptPrice();
+    // Check if we're in mock mode
+    const isMockMode = CONFIG.mockMode;
+    if (isMockMode) {
+      log(`Running in MOCK mode - simulating transaction for ${action}`);
 
-    log(
-      `Current wallet balances: ${balances.apt.toFixed(4)} APT, ${balances.usdc.toFixed(2)} USDC`
-    );
-    log(`Current APT price: $${aptPrice.toFixed(2)}`);
+      if (action === "BUY") {
+        log(`Would execute: Buy ${amount} APT`);
+      } else if (action === "SELL") {
+        log(`Would execute: Sell ${amount} APT`);
+      } else if (action === "DEPOSIT") {
+        log(`Would execute: Deposit ${amount} APT to yield protocol`);
+      } else if (action === "WITHDRAW") {
+        log(`Would execute: Withdraw ${amount} APT from yield protocol`);
+      } else if (action === "HOLD") {
+        log("Action: HOLD - No transaction needed");
+      } else {
+        // Handle any other cases to make TypeScript happy
+        const exhaustiveCheck: never = action;
+        log(`Unhandled action type: ${exhaustiveCheck}`);
+      }
 
-    switch (action) {
-      case "BUY":
+      // Generate and post tweet about the action in mock mode
+      if (action !== "HOLD") {
+        const actionVerb =
+          action === "BUY" || action === "DEPOSIT" ? "bought" : "sold";
+        const tweetContent = `HypeFlow AI just ${actionVerb} ${amount} $APT because Twitter sentiment is ${confidence > 0.7 ? "strongly" : ""} ${confidence > 0.5 ? "positive" : "negative"}! #AptosHype #Web3 #HypeFlowAI`;
+        await postToTwitter(tweetContent);
+      }
+
+      return true;
+    }
+
+    // If not in mock mode, continue with actual execution
+    log("🚨 EXECUTING REAL ON-CHAIN TRANSACTION 🚨");
+    log(`Current mode: REAL TRANSACTION MODE (mock mode is OFF)`);
+
+    try {
+      // Check wallet balances before executing trades
+      log("Fetching current wallet balances...");
+      const balances = await getWalletBalances();
+      const aptPrice = await getAptPrice();
+
+      log(
+        `Current wallet balances: ${balances.apt.toFixed(4)} APT, ${balances.usdc.toFixed(2)} USDC`
+      );
+      log(`Current APT price: $${aptPrice.toFixed(2)}`);
+
+      if (action === "BUY") {
         // Calculate how much USDC we need to spend
         const usdcAmount = amount * aptPrice;
 
@@ -160,15 +204,16 @@ async function executeOnChainAction(
         }
 
         log(
-          `Executing: Buy ${amount} APT for approximately ${usdcAmount.toFixed(2)} USDC`
+          `Executing REAL transaction: Buy ${amount} APT for approximately ${usdcAmount.toFixed(2)} USDC`
         );
 
         // Execute the swap from USDC to APT
         const buyTxHash = await swapTokens("USDC", "APT", usdcAmount);
         log(`Buy transaction executed. Hash: ${buyTxHash}`);
-        break;
-
-      case "SELL":
+        log(
+          `Transaction can be viewed at: https://explorer.aptoslabs.com/txn/${buyTxHash}?network=testnet`
+        );
+      } else if (action === "SELL") {
         // Check if we have enough APT
         if (balances.apt < amount) {
           log(
@@ -178,37 +223,58 @@ async function executeOnChainAction(
         }
 
         log(
-          `Executing: Sell ${amount} APT for approximately ${(amount * aptPrice).toFixed(2)} USDC`
+          `Executing REAL transaction: Sell ${amount} APT for approximately ${(amount * aptPrice).toFixed(2)} USDC`
         );
 
         // Execute the swap from APT to USDC
         const sellTxHash = await swapTokens("APT", "USDC", amount);
         log(`Sell transaction executed. Hash: ${sellTxHash}`);
-        break;
+        log(
+          `Transaction can be viewed at: https://explorer.aptoslabs.com/txn/${sellTxHash}?network=testnet`
+        );
+      } else if (action === "DEPOSIT") {
+        // Check if we have enough APT
+        if (balances.apt < amount) {
+          log(
+            `Insufficient APT balance (${balances.apt.toFixed(4)}) to deposit ${amount} APT`
+          );
+          return false;
+        }
 
-      case "DEPOSIT":
         log(`Would execute: Deposit ${amount} APT to yield protocol`);
+        log(
+          `NOTE: Deposit functionality is not yet implemented in this version`
+        );
         // In a real implementation, this would call a yield protocol
         // await agent.deposit(...);
-        break;
-
-      case "WITHDRAW":
+      } else if (action === "WITHDRAW") {
         log(`Would execute: Withdraw ${amount} APT from yield protocol`);
+        log(
+          `NOTE: Withdraw functionality is not yet implemented in this version`
+        );
         // In a real implementation, this would call a yield protocol
         // await agent.withdraw(...);
-        break;
-
-      case "HOLD":
+      } else if (action === "HOLD") {
         log("Action: HOLD - No transaction needed");
-        break;
-    }
+      } else {
+        // Handle any other cases to make TypeScript happy
+        const exhaustiveCheck: never = action;
+        log(`Unhandled action type: ${exhaustiveCheck}`);
+      }
 
-    // Generate and post tweet about the action
-    if (action !== "HOLD") {
-      const actionVerb =
-        action === "BUY" || action === "DEPOSIT" ? "bought" : "sold";
-      const tweetContent = `HypeFlow AI just ${actionVerb} ${amount} $APT because Twitter sentiment is ${confidence > 0.7 ? "strongly" : ""} ${confidence > 0.5 ? "positive" : "negative"}! #AptosHype #Web3 #HypeFlowAI`;
-      await postToTwitter(tweetContent);
+      // Generate and post tweet about the action
+      if (action !== "HOLD") {
+        const actionVerb =
+          action === "BUY" || action === "DEPOSIT" ? "bought" : "sold";
+        const tweetContent = `HypeFlow AI just ${actionVerb} ${amount} $APT because Twitter sentiment is ${confidence > 0.7 ? "strongly" : ""} ${confidence > 0.5 ? "positive" : "negative"}! #AptosHype #Web3 #HypeFlowAI`;
+        await postToTwitter(tweetContent);
+      }
+    } catch (actionError) {
+      log(
+        `Error during action execution: ${actionError instanceof Error ? actionError.message : String(actionError)}`
+      );
+      console.error("Action execution error details:", actionError);
+      return false;
     }
 
     return true;
@@ -221,8 +287,11 @@ async function executeOnChainAction(
   }
 }
 
-// Add hardcoded mock tweets function
-async function getMockTweetsWithSentiment(hashtag: string) {
+// Add hardcoded mock tweets function with proper type annotations
+async function getMockTweetsWithSentiment(hashtag: string): Promise<{
+  data: any[];
+  meta: { result_count: number };
+}> {
   return {
     data: mockTweets,
     meta: {

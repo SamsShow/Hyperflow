@@ -308,3 +308,63 @@
 [2025-03-03T21:19:42.659Z] Current APT price: $15.75
 [2025-03-03T21:19:42.660Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
 [2025-03-03T21:19:42.661Z] HypeFlow AI agent run complete
+[2025-03-03T21:26:47.959Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:26:47.960Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:26:47.962Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:26:47.964Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:26:47.965Z] Analyzing 11 unique tweets
+[2025-03-03T21:26:48.225Z] Overall sentiment score: 0.7027
+[2025-03-03T21:26:48.228Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:26:48.229Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:26:48.231Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:26:51.236Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:26:51.241Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:26:51.262Z] Would execute: Buy 50 APT
+[2025-03-03T21:26:51.268Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:26:51.275Z] HypeFlow AI agent run complete
+[2025-03-03T21:36:36.430Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:36:36.432Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:36:36.434Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:36:36.437Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:36:36.439Z] Analyzing 11 unique tweets
+[2025-03-03T21:36:36.752Z] Overall sentiment score: 0.7027
+[2025-03-03T21:36:36.755Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:36:36.756Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:36:36.759Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:36:39.607Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:36:39.611Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:36:39.618Z] Would execute: Buy 50 APT
+[2025-03-03T21:36:39.623Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:36:39.626Z] HypeFlow AI agent run complete
+[2025-03-03T21:39:48.347Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:39:48.348Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:39:48.350Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:39:48.352Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:39:48.353Z] Analyzing 11 unique tweets
+[2025-03-03T21:39:48.691Z] Overall sentiment score: 0.7027
+[2025-03-03T21:39:48.694Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:39:48.695Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:39:48.697Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:39:51.792Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:39:51.793Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:39:51.794Z] Would execute: Buy 50 APT
+[2025-03-03T21:39:51.795Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:39:51.796Z] HypeFlow AI agent run complete
+[2025-03-03T21:43:39.683Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:43:39.688Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:43:39.690Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:43:39.703Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:43:39.705Z] Analyzing 11 unique tweets
+[2025-03-03T21:43:39.953Z] Overall sentiment score: 0.7027
+[2025-03-03T21:43:39.956Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:43:39.958Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:43:39.962Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:43:39.963Z] Recording sentiment data on-chain...
+[2025-03-03T21:43:43.012Z] Sentiment recording result: error-bcs-serialization
+[2025-03-03T21:43:43.013Z] 🚨 EXECUTING REAL ON-CHAIN TRANSACTION 🚨
+[2025-03-03T21:43:43.014Z] Current mode: REAL TRANSACTION MODE (mock mode is OFF)
+[2025-03-03T21:43:43.015Z] Fetching current wallet balances...
+[2025-03-03T21:43:45.035Z] Current wallet balances: 0.0000 APT, 490.00 USDC
+[2025-03-03T21:43:45.038Z] Current APT price: $15.75
+[2025-03-03T21:43:45.044Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
+[2025-03-03T21:43:45.047Z] HypeFlow AI agent run complete
