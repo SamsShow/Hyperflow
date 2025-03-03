@@ -17,7 +17,13 @@ import {
   DecisionConfig,
   ActionType,
 } from "../src/lib/decisionLogic.js";
-import { getAptosClient } from "../src/lib/aptos.js";
+import { 
+  getAptosClient, 
+  swapTokens, 
+  getWalletBalances, 
+  getAptPrice,
+  recordSentimentTrade
+} from "../src/lib/aptos.js";
 import dotenv from "dotenv";
 import { appendFileSync } from "fs";
 import { TwitterApi } from "twitter-api-v2";
@@ -120,44 +126,80 @@ async function executeOnChainAction(
     `Executing on-chain action: ${action} amount=${amount} confidence=${confidence.toFixed(2)}`
   );
 
-  // In a real implementation, this would use Move Agent Kit
-  // For MVP, we just log the action details
+  try {
+    // Record sentiment trade on-chain regardless of action
+    await recordSentimentTrade(confidence * 2 - 1, confidence); // Convert confidence (0-1) to sentiment (-1 to 1)
+    
+    // Check wallet balances before executing trades
+    const balances = await getWalletBalances();
+    const aptPrice = await getAptPrice();
+    
+    log(`Current wallet balances: ${balances.apt.toFixed(4)} APT, ${balances.usdc.toFixed(2)} USDC`);
+    log(`Current APT price: $${aptPrice.toFixed(2)}`);
+    
+    switch (action) {
+      case "BUY":
+        // Calculate how much USDC we need to spend
+        const usdcAmount = amount * aptPrice;
+        
+        // Check if we have enough USDC
+        if (balances.usdc < usdcAmount) {
+          log(`Insufficient USDC balance (${balances.usdc.toFixed(2)}) to buy ${amount} APT (${usdcAmount.toFixed(2)} USDC needed)`);
+          return false;
+        }
+        
+        log(`Executing: Buy ${amount} APT for approximately ${usdcAmount.toFixed(2)} USDC`);
+        
+        // Execute the swap from USDC to APT
+        const buyTxHash = await swapTokens("USDC", "APT", usdcAmount);
+        log(`Buy transaction executed. Hash: ${buyTxHash}`);
+        break;
+        
+      case "SELL":
+        // Check if we have enough APT
+        if (balances.apt < amount) {
+          log(`Insufficient APT balance (${balances.apt.toFixed(4)}) to sell ${amount} APT`);
+          return false;
+        }
+        
+        log(`Executing: Sell ${amount} APT for approximately ${(amount * aptPrice).toFixed(2)} USDC`);
+        
+        // Execute the swap from APT to USDC
+        const sellTxHash = await swapTokens("APT", "USDC", amount);
+        log(`Sell transaction executed. Hash: ${sellTxHash}`);
+        break;
+        
+      case "DEPOSIT":
+        log(`Would execute: Deposit ${amount} APT to yield protocol`);
+        // In a real implementation, this would call a yield protocol
+        // await agent.deposit(...);
+        break;
+        
+      case "WITHDRAW":
+        log(`Would execute: Withdraw ${amount} APT from yield protocol`);
+        // In a real implementation, this would call a yield protocol
+        // await agent.withdraw(...);
+        break;
+        
+      case "HOLD":
+        log("Action: HOLD - No transaction needed");
+        break;
+    }
 
-  switch (action) {
-    case "BUY":
-      log(`Would execute: Buy ${amount} APT`);
-      // In real implementation:
-      // await agent.swapTokens(...);
-      break;
-    case "SELL":
-      log(`Would execute: Sell ${amount} APT`);
-      // In real implementation:
-      // await agent.swapTokens(...);
-      break;
-    case "DEPOSIT":
-      log(`Would execute: Deposit ${amount} APT to yield protocol`);
-      // In real implementation:
-      // await agent.deposit(...);
-      break;
-    case "WITHDRAW":
-      log(`Would execute: Withdraw ${amount} APT from yield protocol`);
-      // In real implementation:
-      // await agent.withdraw(...);
-      break;
-    case "HOLD":
-      log("Action: HOLD - No transaction needed");
-      break;
+    // Generate and post tweet about the action
+    if (action !== "HOLD") {
+      const actionVerb =
+        action === "BUY" || action === "DEPOSIT" ? "bought" : "sold";
+      const tweetContent = `HypeFlow AI just ${actionVerb} ${amount} $APT because Twitter sentiment is ${confidence > 0.7 ? "strongly" : ""} ${confidence > 0.5 ? "positive" : "negative"}! #AptosHype #Web3 #HypeFlowAI`;
+      await postToTwitter(tweetContent);
+    }
+
+    return true;
+  } catch (error) {
+    log(`Error executing on-chain action: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(error);
+    return false;
   }
-
-  // Generate and post tweet about the action
-  if (action !== "HOLD") {
-    const actionVerb =
-      action === "BUY" || action === "DEPOSIT" ? "bought" : "sold";
-    const tweetContent = `HypeFlow AI just ${actionVerb} ${amount} $APT because Twitter sentiment is ${confidence > 0.7 ? "strongly" : ""} ${confidence > 0.5 ? "positive" : "negative"}! #AptosHype #Web3 #HypeFlowAI`;
-    await postToTwitter(tweetContent);
-  }
-
-  return true;
 }
 
 // Add hardcoded mock tweets function
