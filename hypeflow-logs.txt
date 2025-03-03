@@ -284,3 +284,27 @@
 [2025-03-03T08:09:01.994Z] Would execute: Buy 50 APT
 [2025-03-03T08:09:01.994Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
 [2025-03-03T08:09:01.994Z] HypeFlow AI agent run complete
+[2025-03-03T21:14:49.681Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:14:49.697Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:14:49.729Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:14:49.732Z] Analyzing 11 unique tweets
+[2025-03-03T21:14:50.682Z] Overall sentiment score: 0.7027
+[2025-03-03T21:14:50.792Z] Decision: DEPOSIT (Confidence: 0.50)
+[2025-03-03T21:14:50.829Z] Reason: Positive sentiment (0.70) above threshold (0.4). Already invested, so deposit more into yield.
+[2025-03-03T21:14:50.851Z] Executing on-chain action: DEPOSIT amount=50 confidence=0.50
+[2025-03-03T21:14:52.688Z] Error recording sentiment: Failed to record sentiment trade: BCS serialization error: Please ensure sentiment data is properly formatted
+[2025-03-03T21:14:54.492Z] Error executing on-chain action: Token transfer failed: Request to [Fullnode]: POST https://api.testnet.aptoslabs.com/v1/view (trace_id:2c2ef9595f8546b92dc34e0a28095d71) failed with: {"message":"VMError with status LINKER_ERROR at location UNDEFINED and message Linker Error: Module f22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset doesn't exist","error_code":"invalid_input","vm_error_code":null}
+[2025-03-03T21:14:54.500Z] HypeFlow AI agent run complete
+[2025-03-03T21:19:37.670Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:19:37.677Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:19:37.678Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:19:37.682Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:19:37.684Z] Analyzing 11 unique tweets
+[2025-03-03T21:19:38.051Z] Overall sentiment score: 0.7027
+[2025-03-03T21:19:38.057Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:19:38.058Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:19:38.060Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:19:42.657Z] Current wallet balances: 0.0000 APT, 490.00 USDC
+[2025-03-03T21:19:42.659Z] Current APT price: $15.75
+[2025-03-03T21:19:42.660Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
+[2025-03-03T21:19:42.661Z] HypeFlow AI agent run complete
