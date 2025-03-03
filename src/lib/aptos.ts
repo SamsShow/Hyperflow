@@ -1,5 +1,12 @@
 import { APTOS_API_KEY, NETWORK } from "../constants.js";
-import { Aptos, AptosConfig, Network as AptosNetwork, Ed25519PrivateKey, PrivateKey, PrivateKeyVariants } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  Network as AptosNetwork,
+  Ed25519PrivateKey,
+  PrivateKey,
+  PrivateKeyVariants,
+} from "@aptos-labs/ts-sdk";
 import { AgentRuntime, LocalSigner } from "move-agent-kit";
 import dotenv from "dotenv";
 
@@ -8,14 +15,16 @@ dotenv.config();
 
 // Constants for token addresses
 const APT_COIN_ADDRESS = "0x1::aptos_coin::AptosCoin";
-const USDC_COIN_ADDRESS = "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC";
+const USDC_COIN_ADDRESS =
+  "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC";
 
 // Constants for token decimals
 const APT_DECIMALS = 8;
 const USDC_DECIMALS = 6;
 
 // PancakeSwap router address
-const PANCAKESWAP_ROUTER = "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa::router::";
+const PANCAKESWAP_ROUTER =
+  "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa::router::";
 
 const APTOS_CLIENT = new Aptos(
   new AptosConfig({
@@ -31,34 +40,51 @@ export const getAptosClient = () => APTOS_CLIENT;
  * @returns AgentRuntime instance
  */
 export const initMoveAgentKit = async (): Promise<AgentRuntime> => {
-  dotenv.config();
-  
-  const privateKey = process.env.WALLET_PRIVATE_KEY;
-  
-  if (!privateKey) {
-    throw new Error("WALLET_PRIVATE_KEY not found in environment variables");
-  }
-  
-  const aptosConfig = new AptosConfig({
-    network: NETWORK as AptosNetwork,
-  });
+  try {
+    dotenv.config();
 
-  const aptos = new Aptos(aptosConfig);
-  
-  const account = await aptos.deriveAccountFromPrivateKey({
-    privateKey: new Ed25519PrivateKey(
-      PrivateKey.formatPrivateKey(
+    const privateKey = process.env.WALLET_PRIVATE_KEY;
+
+    if (!privateKey) {
+      throw new Error("WALLET_PRIVATE_KEY not found in environment variables");
+    }
+
+    const aptosConfig = new AptosConfig({
+      network: NETWORK as AptosNetwork,
+    });
+
+    const aptos = new Aptos(aptosConfig);
+
+    // Parse the private key carefully to avoid BCS errors
+    let formattedPrivateKey;
+    try {
+      formattedPrivateKey = PrivateKey.formatPrivateKey(
         privateKey,
-        PrivateKeyVariants.Ed25519,
-      ),
-    ),
-  });
+        PrivateKeyVariants.Ed25519
+      );
+    } catch (error) {
+      console.error("Error formatting private key:", error);
+      throw new Error(
+        `Failed to format private key: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
 
-  const signer = new LocalSigner(account, NETWORK as AptosNetwork);
-  
-  return new AgentRuntime(signer, aptos, {
+    // Create the Ed25519PrivateKey instance
+    const ed25519Key = new Ed25519PrivateKey(formattedPrivateKey);
 
-  });
+    const account = await aptos.deriveAccountFromPrivateKey({
+      privateKey: ed25519Key,
+    });
+
+    const signer = new LocalSigner(account, NETWORK as AptosNetwork);
+
+    return new AgentRuntime(signer, aptos, {});
+  } catch (error) {
+    console.error("Error initializing Move Agent Kit:", error);
+    throw new Error(
+      `Failed to initialize Move Agent Kit: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 };
 
 /**
@@ -67,13 +93,13 @@ export const initMoveAgentKit = async (): Promise<AgentRuntime> => {
  */
 export const getWalletBalances = async () => {
   const agent = await initMoveAgentKit();
-  
+
   // Get APT balance (default token if no mint is specified)
   const aptBalance = await agent.getBalance();
-  
+
   // Get USDC balance by specifying the USDC coin address
   const usdcBalance = await agent.getBalance(USDC_COIN_ADDRESS);
-  
+
   return {
     apt: aptBalance / Math.pow(10, APT_DECIMALS),
     usdc: usdcBalance / Math.pow(10, USDC_DECIMALS),
@@ -101,37 +127,65 @@ export const recordSentimentTrade = async (
   sentimentScore: number,
   confidence: number
 ) => {
-  const agent = await initMoveAgentKit();
-  
-  // Convert sentiment score and confidence to integers for on-chain storage
-  // Sentiment ranges from -1 to 1, scale to 0-200 (100 being neutral)
-  const sentimentInt = Math.round((sentimentScore + 1) * 100);
-  
-  // Confidence ranges from 0 to 1, scale to 0-100
-  const confidenceInt = Math.round(confidence * 100);
-  
-  // Since executeFunction is not available, we need to use the Aptos SDK directly
-  // Get the signer's address
-  const signerAddress = agent.account.getAddress();
-  
-  // Build and submit the transaction using the Aptos instance
-  const payload = {
-    function: `${process.env.SENTIMENT_TRADER_ADDRESS}::sentiment_trader::record_sentiment_trade`,
-    type_arguments: [],
-    arguments: [sentimentInt, confidenceInt]
-  };
-  
-  // Use the account's sendTransaction method to submit the transaction
-  const txHash = await agent.account.sendTransaction({
-    data: {
-      function: payload.function as `${string}::${string}::${string}`,
-      typeArguments: payload.type_arguments,
-      functionArguments: payload.arguments
+  try {
+    // Check if the sentiment trader address is defined
+    if (!process.env.SENTIMENT_TRADER_ADDRESS) {
+      console.warn(
+        "SENTIMENT_TRADER_ADDRESS not found in environment variables. Skipping sentiment recording."
+      );
+      return "skipped-no-address";
     }
-  });
-  
-  console.log(`Recorded sentiment trade on-chain: score=${sentimentScore}, confidence=${confidence}`);
-  return txHash;
+
+    const agent = await initMoveAgentKit();
+
+    // Convert sentiment score and confidence to integers for on-chain storage
+    // Sentiment ranges from -1 to 1, scale to 0-200 (100 being neutral)
+    const sentimentInt = Math.round((sentimentScore + 1) * 100);
+
+    // Confidence ranges from 0 to 1, scale to 0-100
+    const confidenceInt = Math.round(confidence * 100);
+
+    // Get the signer's address
+    const signerAddress = agent.account.getAddress();
+
+    // Build and submit the transaction using the Aptos instance
+    const payload = {
+      function: `${process.env.SENTIMENT_TRADER_ADDRESS}::sentiment_trader::record_sentiment_trade`,
+      type_arguments: [],
+      arguments: [sentimentInt, confidenceInt],
+    };
+
+    // Use the account's sendTransaction method to submit the transaction
+    let txHash;
+    try {
+      txHash = await agent.account.sendTransaction({
+        data: {
+          function: payload.function as `${string}::${string}::${string}`,
+          typeArguments: payload.type_arguments,
+          functionArguments: payload.arguments,
+        },
+      });
+    } catch (txError) {
+      console.error("Transaction error in recordSentimentTrade:", txError);
+      // Check if it's a BCS-related error
+      if (txError instanceof Error && txError.message.includes("bcsToBytes")) {
+        throw new Error(
+          `BCS serialization error: Please ensure sentiment data is properly formatted`
+        );
+      }
+      throw txError;
+    }
+
+    console.log(
+      `Recorded sentiment trade on-chain: score=${sentimentScore}, confidence=${confidence}`
+    );
+    return txHash;
+  } catch (error) {
+    console.error("Error in recordSentimentTrade:", error);
+    throw new Error(
+      `Failed to record sentiment trade: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 };
 
 /**
@@ -151,24 +205,84 @@ export const swapTokens = async (
   if (fromToken === toToken) {
     throw new Error("Cannot swap the same token");
   }
-  
-  const agent = await initMoveAgentKit();
-  
-  // Convert amount to raw units based on token decimals
-  const decimals = fromToken === "APT" ? APT_DECIMALS : USDC_DECIMALS;
-  const rawAmount = Math.floor(amount * Math.pow(10, decimals));
-  
-  // Get token addresses
-  const fromTokenAddress = fromToken === "APT" ? APT_COIN_ADDRESS : USDC_COIN_ADDRESS;
-  const toTokenAddress = toToken === "APT" ? APT_COIN_ADDRESS : USDC_COIN_ADDRESS;
-  
-  // Execute the swap using swapWithPanora
-  const txHash = await agent.swapWithPanora(
-    fromTokenAddress,
-    toTokenAddress,
-    rawAmount
-  );
-  
-  console.log(`Swapped ${amount} ${fromToken} to ${toToken}. Transaction hash: ${txHash}`);
-  return txHash;
+
+  if (!amount || amount <= 0) {
+    throw new Error(
+      `Invalid amount: ${amount}. Amount must be greater than 0.`
+    );
+  }
+
+  try {
+    const agent = await initMoveAgentKit();
+
+    // Convert amount to raw units based on token decimals
+    const decimals = fromToken === "APT" ? APT_DECIMALS : USDC_DECIMALS;
+    // Ensure we don't lose precision in the calculation
+    const rawAmount = Math.floor(amount * Math.pow(10, decimals));
+
+    if (rawAmount <= 0) {
+      throw new Error(
+        `Invalid raw amount calculated: ${rawAmount}. Check your input amount.`
+      );
+    }
+
+    // Log the raw amount for debugging
+    console.log(
+      `Converting ${amount} ${fromToken} to raw amount: ${rawAmount}`
+    );
+
+    // Get token addresses
+    const fromTokenAddress =
+      fromToken === "APT" ? APT_COIN_ADDRESS : USDC_COIN_ADDRESS;
+    const toTokenAddress =
+      toToken === "APT" ? APT_COIN_ADDRESS : USDC_COIN_ADDRESS;
+
+    // Use the Aptos SDK directly instead of swapWithPanora
+    // Define the transaction payload for PancakeSwap router
+    const data = {
+      function: `${PANCAKESWAP_ROUTER}swap_exact_input_direct`,
+      typeArguments: [fromTokenAddress, toTokenAddress],
+      functionArguments: [
+        BigInt(rawAmount), // amount in - ensure we use BigInt for large numbers
+        BigInt(1), // min amount out (1 unit, practically no slippage protection for simplicity)
+      ],
+    };
+
+    // Log the transaction details for debugging
+    console.log(
+      "Sending transaction with payload:",
+      JSON.stringify(data, (_, v) => (typeof v === "bigint" ? v.toString() : v))
+    );
+
+    // Submit the transaction
+    let txHash;
+    try {
+      txHash = await agent.account.sendTransaction({
+        data: {
+          function: data.function as `${string}::${string}::${string}`,
+          typeArguments: data.typeArguments,
+          functionArguments: data.functionArguments,
+        },
+      });
+    } catch (txError) {
+      console.error("Transaction error:", txError);
+      // Check if it's a BCS-related error
+      if (txError instanceof Error && txError.message.includes("bcsToBytes")) {
+        throw new Error(
+          `BCS serialization error: Please ensure all transaction arguments are properly formatted`
+        );
+      }
+      throw txError;
+    }
+
+    console.log(
+      `Swapped ${amount} ${fromToken} to ${toToken}. Transaction hash: ${txHash}`
+    );
+    return txHash;
+  } catch (error) {
+    console.error("Error in swapTokens:", error);
+    throw new Error(
+      `Failed to swap tokens: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 };

@@ -17,12 +17,12 @@ import {
   DecisionConfig,
   ActionType,
 } from "../src/lib/decisionLogic.js";
-import { 
-  getAptosClient, 
-  swapTokens, 
-  getWalletBalances, 
+import {
+  getAptosClient,
+  swapTokens,
+  getWalletBalances,
   getAptPrice,
-  recordSentimentTrade
+  recordSentimentTrade,
 } from "../src/lib/aptos.js";
 import dotenv from "dotenv";
 import { appendFileSync } from "fs";
@@ -128,59 +128,76 @@ async function executeOnChainAction(
 
   try {
     // Record sentiment trade on-chain regardless of action
-    await recordSentimentTrade(confidence * 2 - 1, confidence); // Convert confidence (0-1) to sentiment (-1 to 1)
-    
+    try {
+      await recordSentimentTrade(confidence * 2 - 1, confidence); // Convert confidence (0-1) to sentiment (-1 to 1)
+    } catch (sentimentError) {
+      log(
+        `Error recording sentiment: ${sentimentError instanceof Error ? sentimentError.message : String(sentimentError)}`
+      );
+      // Continue execution even if sentiment recording fails
+    }
+
     // Check wallet balances before executing trades
     const balances = await getWalletBalances();
     const aptPrice = await getAptPrice();
-    
-    log(`Current wallet balances: ${balances.apt.toFixed(4)} APT, ${balances.usdc.toFixed(2)} USDC`);
+
+    log(
+      `Current wallet balances: ${balances.apt.toFixed(4)} APT, ${balances.usdc.toFixed(2)} USDC`
+    );
     log(`Current APT price: $${aptPrice.toFixed(2)}`);
-    
+
     switch (action) {
       case "BUY":
         // Calculate how much USDC we need to spend
         const usdcAmount = amount * aptPrice;
-        
+
         // Check if we have enough USDC
         if (balances.usdc < usdcAmount) {
-          log(`Insufficient USDC balance (${balances.usdc.toFixed(2)}) to buy ${amount} APT (${usdcAmount.toFixed(2)} USDC needed)`);
+          log(
+            `Insufficient USDC balance (${balances.usdc.toFixed(2)}) to buy ${amount} APT (${usdcAmount.toFixed(2)} USDC needed)`
+          );
           return false;
         }
-        
-        log(`Executing: Buy ${amount} APT for approximately ${usdcAmount.toFixed(2)} USDC`);
-        
+
+        log(
+          `Executing: Buy ${amount} APT for approximately ${usdcAmount.toFixed(2)} USDC`
+        );
+
         // Execute the swap from USDC to APT
         const buyTxHash = await swapTokens("USDC", "APT", usdcAmount);
         log(`Buy transaction executed. Hash: ${buyTxHash}`);
         break;
-        
+
       case "SELL":
         // Check if we have enough APT
         if (balances.apt < amount) {
-          log(`Insufficient APT balance (${balances.apt.toFixed(4)}) to sell ${amount} APT`);
+          log(
+            `Insufficient APT balance (${balances.apt.toFixed(4)}) to sell ${amount} APT`
+          );
           return false;
         }
-        
-        log(`Executing: Sell ${amount} APT for approximately ${(amount * aptPrice).toFixed(2)} USDC`);
-        
+
+        log(
+          `Executing: Sell ${amount} APT for approximately ${(amount * aptPrice).toFixed(2)} USDC`
+        );
+
         // Execute the swap from APT to USDC
         const sellTxHash = await swapTokens("APT", "USDC", amount);
         log(`Sell transaction executed. Hash: ${sellTxHash}`);
         break;
-        
+
       case "DEPOSIT":
         log(`Would execute: Deposit ${amount} APT to yield protocol`);
         // In a real implementation, this would call a yield protocol
         // await agent.deposit(...);
         break;
-        
+
       case "WITHDRAW":
         log(`Would execute: Withdraw ${amount} APT from yield protocol`);
         // In a real implementation, this would call a yield protocol
         // await agent.withdraw(...);
         break;
-        
+
       case "HOLD":
         log("Action: HOLD - No transaction needed");
         break;
@@ -196,8 +213,10 @@ async function executeOnChainAction(
 
     return true;
   } catch (error) {
-    log(`Error executing on-chain action: ${error instanceof Error ? error.message : String(error)}`);
-    console.error(error);
+    log(
+      `Error executing on-chain action: ${error instanceof Error ? error.message : String(error)}`
+    );
+    console.error("Full error details:", error);
     return false;
   }
 }
