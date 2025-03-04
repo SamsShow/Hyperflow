@@ -103,6 +103,7 @@ async function postToTwitter(message: string) {
     return;
   }
 
+
   try {
     const response = await twitterClient.v2.tweet(message);
     log(`Posted to Twitter: ${message}`);
@@ -113,7 +114,6 @@ async function postToTwitter(message: string) {
 
   // Just log the message instead
   log(`Would have posted to Twitter: ${message}`);
-  console.log("_____________________oh yeahh_____________________");
   return null;
 }
 
