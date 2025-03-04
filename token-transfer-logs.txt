@@ -1,0 +1,3 @@
+[2025-03-03T22:20:56.985Z] Starting token transfer process
+[2025-03-03T22:20:56.988Z] Connected to Aptos network: testnet
+[2025-03-03T22:20:57.034Z] Sender address: 0xbe2ed263a6cfde8f786532e59b25eeea21073ea0e1db3c6771817d80637449ad

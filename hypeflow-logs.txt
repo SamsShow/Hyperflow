@@ -308,3 +308,329 @@
 [2025-03-03T21:19:42.659Z] Current APT price: $15.75
 [2025-03-03T21:19:42.660Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
 [2025-03-03T21:19:42.661Z] HypeFlow AI agent run complete
+[2025-03-03T21:26:47.959Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:26:47.960Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:26:47.962Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:26:47.964Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:26:47.965Z] Analyzing 11 unique tweets
+[2025-03-03T21:26:48.225Z] Overall sentiment score: 0.7027
+[2025-03-03T21:26:48.228Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:26:48.229Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:26:48.231Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:26:51.236Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:26:51.241Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:26:51.262Z] Would execute: Buy 50 APT
+[2025-03-03T21:26:51.268Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:26:51.275Z] HypeFlow AI agent run complete
+[2025-03-03T21:36:36.430Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:36:36.432Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:36:36.434Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:36:36.437Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:36:36.439Z] Analyzing 11 unique tweets
+[2025-03-03T21:36:36.752Z] Overall sentiment score: 0.7027
+[2025-03-03T21:36:36.755Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:36:36.756Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:36:36.759Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:36:39.607Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:36:39.611Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:36:39.618Z] Would execute: Buy 50 APT
+[2025-03-03T21:36:39.623Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:36:39.626Z] HypeFlow AI agent run complete
+[2025-03-03T21:39:48.347Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:39:48.348Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:39:48.350Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:39:48.352Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:39:48.353Z] Analyzing 11 unique tweets
+[2025-03-03T21:39:48.691Z] Overall sentiment score: 0.7027
+[2025-03-03T21:39:48.694Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:39:48.695Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:39:48.697Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:39:51.792Z] Sentiment recording result: skipped-tx-error
+[2025-03-03T21:39:51.793Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:39:51.794Z] Would execute: Buy 50 APT
+[2025-03-03T21:39:51.795Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:39:51.796Z] HypeFlow AI agent run complete
+[2025-03-03T21:43:39.683Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:43:39.688Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:43:39.690Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:43:39.703Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:43:39.705Z] Analyzing 11 unique tweets
+[2025-03-03T21:43:39.953Z] Overall sentiment score: 0.7027
+[2025-03-03T21:43:39.956Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:43:39.958Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:43:39.962Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:43:39.963Z] Recording sentiment data on-chain...
+[2025-03-03T21:43:43.012Z] Sentiment recording result: error-bcs-serialization
+[2025-03-03T21:43:43.013Z] 🚨 EXECUTING REAL ON-CHAIN TRANSACTION 🚨
+[2025-03-03T21:43:43.014Z] Current mode: REAL TRANSACTION MODE (mock mode is OFF)
+[2025-03-03T21:43:43.015Z] Fetching current wallet balances...
+[2025-03-03T21:43:45.035Z] Current wallet balances: 0.0000 APT, 490.00 USDC
+[2025-03-03T21:43:45.038Z] Current APT price: $15.75
+[2025-03-03T21:43:45.044Z] Insufficient USDC balance (490.00) to buy 50 APT (787.50 USDC needed)
+[2025-03-03T21:43:45.047Z] HypeFlow AI agent run complete
+[2025-03-03T21:47:35.926Z] Starting HypeFlow AI agent run...
+[2025-03-03T21:47:35.928Z] Getting mock tweets for #Aptos...
+[2025-03-03T21:47:35.929Z] Scheduling future runs every 10 minutes
+[2025-03-03T21:47:35.931Z] Found 11 mock tweets for #Aptos
+[2025-03-03T21:47:35.933Z] Analyzing 11 unique tweets
+[2025-03-03T21:47:36.244Z] Overall sentiment score: 0.7027
+[2025-03-03T21:47:36.248Z] Decision: BUY (Confidence: 0.50)
+[2025-03-03T21:47:36.250Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-03T21:47:36.255Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-03T21:47:36.257Z] Recording sentiment data on-chain...
+[2025-03-03T21:47:36.262Z] Sentiment recording result: mock-sentiment-tx-hash-1741038456261
+[2025-03-03T21:47:36.263Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-03T21:47:36.265Z] Would execute: Buy 50 APT
+[2025-03-03T21:47:36.270Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-03T21:47:36.272Z] HypeFlow AI agent run complete
+[2025-03-04T09:52:33.982Z] Starting HypeFlow AI agent run...
+[2025-03-04T09:52:33.983Z] Getting mock tweets for #Aptos...
+[2025-03-04T09:52:33.983Z] Scheduling future runs every 10 minutes
+[2025-03-04T09:52:33.984Z] Found 11 mock tweets for #Aptos
+[2025-03-04T09:52:33.984Z] Analyzing 11 unique tweets
+[2025-03-04T09:52:34.034Z] Overall sentiment score: 0.7027
+[2025-03-04T09:52:34.034Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T09:52:34.034Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T09:52:34.035Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T09:52:34.035Z] Recording sentiment data on-chain...
+[2025-03-04T09:52:36.391Z] Sentiment recording result: error-bcs-serialization
+[2025-03-04T09:52:36.391Z] 🚨 EXECUTING REAL ON-CHAIN TRANSACTION 🚨
+[2025-03-04T09:52:36.392Z] Current mode: REAL TRANSACTION MODE (mock mode is OFF)
+[2025-03-04T09:52:36.392Z] Fetching current wallet balances...
+[2025-03-04T09:52:38.188Z] Current wallet balances: 0.0000 APT, 389.99 USDC
+[2025-03-04T09:52:38.188Z] Current APT price: $15.75
+[2025-03-04T09:52:38.188Z] Insufficient USDC balance (389.99) to buy 50 APT (787.50 USDC needed)
+[2025-03-04T09:52:38.188Z] HypeFlow AI agent run complete
+[2025-03-04T09:54:59.676Z] Starting HypeFlow AI agent run...
+[2025-03-04T09:54:59.677Z] Getting mock tweets for #Aptos...
+[2025-03-04T09:54:59.677Z] Scheduling future runs every 10 minutes
+[2025-03-04T09:54:59.678Z] Found 11 mock tweets for #Aptos
+[2025-03-04T09:54:59.678Z] Analyzing 11 unique tweets
+[2025-03-04T09:54:59.750Z] Overall sentiment score: 0.7027
+[2025-03-04T09:54:59.750Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T09:54:59.750Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T09:54:59.751Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T09:54:59.751Z] Recording sentiment data on-chain...
+[2025-03-04T09:54:59.751Z] Sentiment recording result: mock-sentiment-tx-hash-1741082099751
+[2025-03-04T09:54:59.752Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T09:54:59.752Z] Would execute: Buy 50 APT
+[2025-03-04T09:54:59.752Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T09:54:59.752Z] HypeFlow AI agent run complete
+[2025-03-04T10:04:59.505Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:04:59.508Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:04:59.508Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:04:59.509Z] Analyzing 11 unique tweets
+[2025-03-04T10:04:59.591Z] Overall sentiment score: 0.7027
+[2025-03-04T10:04:59.592Z] Decision: DEPOSIT (Confidence: 0.50)
+[2025-03-04T10:04:59.592Z] Reason: Positive sentiment (0.70) above threshold (0.4). Already invested, so deposit more into yield.
+[2025-03-04T10:04:59.592Z] Executing on-chain action: DEPOSIT amount=50 confidence=0.50
+[2025-03-04T10:04:59.592Z] Recording sentiment data on-chain...
+[2025-03-04T10:04:59.592Z] Sentiment recording result: mock-sentiment-tx-hash-1741082699592
+[2025-03-04T10:04:59.592Z] Running in MOCK mode - simulating transaction for DEPOSIT
+[2025-03-04T10:04:59.592Z] Would execute: Deposit 50 APT to yield protocol
+[2025-03-04T10:04:59.592Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:04:59.592Z] HypeFlow AI agent run complete
+[2025-03-04T10:09:46.357Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:09:46.357Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:09:46.357Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:09:46.358Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:09:46.358Z] Analyzing 11 unique tweets
+[2025-03-04T10:09:46.416Z] Overall sentiment score: 0.7027
+[2025-03-04T10:09:46.417Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:09:46.417Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:09:46.417Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:09:46.417Z] Recording sentiment data on-chain...
+[2025-03-04T10:09:46.418Z] Sentiment recording result: mock-sentiment-tx-hash-1741082986418
+[2025-03-04T10:09:46.418Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:09:46.418Z] Would execute: Buy 50 APT
+[2025-03-04T10:09:48.110Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:09:48.111Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:09:48.111Z] HypeFlow AI agent run complete
+[2025-03-04T10:11:38.029Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:11:38.030Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:11:38.030Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:11:38.030Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:11:38.030Z] Analyzing 11 unique tweets
+[2025-03-04T10:11:38.079Z] Overall sentiment score: 0.7027
+[2025-03-04T10:11:38.080Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:11:38.080Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:11:38.080Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:11:38.081Z] Recording sentiment data on-chain...
+[2025-03-04T10:11:38.081Z] Sentiment recording result: mock-sentiment-tx-hash-1741083098081
+[2025-03-04T10:11:38.081Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:11:38.081Z] Would execute: Buy 50 APT
+[2025-03-04T10:11:38.639Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:11:38.639Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:11:38.639Z] HypeFlow AI agent run complete
+[2025-03-04T10:21:37.937Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:21:37.940Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:21:37.941Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:21:37.941Z] Analyzing 11 unique tweets
+[2025-03-04T10:21:38.023Z] Overall sentiment score: 0.7027
+[2025-03-04T10:21:38.023Z] Decision: DEPOSIT (Confidence: 0.50)
+[2025-03-04T10:21:38.023Z] Reason: Positive sentiment (0.70) above threshold (0.4). Already invested, so deposit more into yield.
+[2025-03-04T10:21:38.023Z] Executing on-chain action: DEPOSIT amount=50 confidence=0.50
+[2025-03-04T10:21:38.023Z] Recording sentiment data on-chain...
+[2025-03-04T10:21:38.023Z] Sentiment recording result: mock-sentiment-tx-hash-1741083698023
+[2025-03-04T10:21:38.024Z] Running in MOCK mode - simulating transaction for DEPOSIT
+[2025-03-04T10:21:38.024Z] Would execute: Deposit 50 APT to yield protocol
+[2025-03-04T10:21:38.558Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:21:38.559Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:21:38.560Z] HypeFlow AI agent run complete
+[2025-03-04T10:28:30.674Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:28:30.675Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:28:30.675Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:28:30.675Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:28:30.675Z] Analyzing 11 unique tweets
+[2025-03-04T10:28:30.728Z] Overall sentiment score: 0.7027
+[2025-03-04T10:28:30.729Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:28:30.729Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:28:30.729Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:28:30.729Z] Recording sentiment data on-chain...
+[2025-03-04T10:28:30.730Z] Sentiment recording result: mock-sentiment-tx-hash-1741084110730
+[2025-03-04T10:28:30.730Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:28:30.730Z] Would execute: Buy 50 APT
+[2025-03-04T10:28:31.529Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:28:31.530Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:28:31.530Z] HypeFlow AI agent run complete
+[2025-03-04T10:36:24.609Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:36:24.610Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:36:24.610Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:36:24.611Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:36:24.611Z] Analyzing 11 unique tweets
+[2025-03-04T10:36:24.659Z] Overall sentiment score: 0.7027
+[2025-03-04T10:36:24.660Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:36:24.660Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:36:24.660Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:36:24.661Z] Recording sentiment data on-chain...
+[2025-03-04T10:36:24.661Z] Sentiment recording result: mock-sentiment-tx-hash-1741084584661
+[2025-03-04T10:36:24.661Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:36:24.661Z] Would execute: Buy 50 APT
+[2025-03-04T10:36:24.661Z] Twitter posting disabled or client not initialized
+[2025-03-04T10:36:24.661Z] HypeFlow AI agent run complete
+[2025-03-04T10:40:11.083Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:40:11.084Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:40:11.084Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:40:11.085Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:40:11.085Z] Analyzing 11 unique tweets
+[2025-03-04T10:40:11.141Z] Overall sentiment score: 0.7027
+[2025-03-04T10:40:11.141Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:40:11.142Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:40:11.142Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:40:11.142Z] Recording sentiment data on-chain...
+[2025-03-04T10:40:11.143Z] Sentiment recording result: mock-sentiment-tx-hash-1741084811142
+[2025-03-04T10:40:11.143Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:40:11.143Z] Would execute: Buy 50 APT
+[2025-03-04T10:40:13.790Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:40:13.791Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:40:13.792Z] HypeFlow AI agent run complete
+[2025-03-04T10:41:59.529Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:41:59.529Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:41:59.529Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:41:59.530Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:41:59.530Z] Analyzing 11 unique tweets
+[2025-03-04T10:41:59.580Z] Overall sentiment score: 0.7027
+[2025-03-04T10:41:59.581Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:41:59.581Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:41:59.581Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:41:59.582Z] Recording sentiment data on-chain...
+[2025-03-04T10:41:59.582Z] Sentiment recording result: mock-sentiment-tx-hash-1741084919582
+[2025-03-04T10:41:59.582Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:41:59.582Z] Would execute: Buy 50 APT
+[2025-03-04T10:42:00.263Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:42:00.263Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:42:00.264Z] HypeFlow AI agent run complete
+[2025-03-04T10:51:59.499Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:51:59.502Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:51:59.503Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:51:59.503Z] Analyzing 11 unique tweets
+[2025-03-04T10:51:59.589Z] Overall sentiment score: 0.7027
+[2025-03-04T10:51:59.589Z] Decision: DEPOSIT (Confidence: 0.50)
+[2025-03-04T10:51:59.589Z] Reason: Positive sentiment (0.70) above threshold (0.4). Already invested, so deposit more into yield.
+[2025-03-04T10:51:59.589Z] Executing on-chain action: DEPOSIT amount=50 confidence=0.50
+[2025-03-04T10:51:59.589Z] Recording sentiment data on-chain...
+[2025-03-04T10:51:59.590Z] Sentiment recording result: mock-sentiment-tx-hash-1741085519589
+[2025-03-04T10:51:59.590Z] Running in MOCK mode - simulating transaction for DEPOSIT
+[2025-03-04T10:51:59.590Z] Would execute: Deposit 50 APT to yield protocol
+[2025-03-04T10:52:00.163Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:52:00.163Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:52:00.163Z] HypeFlow AI agent run complete
+[2025-03-04T10:52:23.989Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:52:23.990Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:52:23.990Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:52:23.990Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:52:23.990Z] Analyzing 11 unique tweets
+[2025-03-04T10:52:24.040Z] Overall sentiment score: 0.7027
+[2025-03-04T10:52:24.040Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:52:24.041Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:52:24.041Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:52:24.041Z] Recording sentiment data on-chain...
+[2025-03-04T10:52:24.041Z] Sentiment recording result: mock-sentiment-tx-hash-1741085544041
+[2025-03-04T10:52:24.042Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:52:24.042Z] Would execute: Buy 50 APT
+[2025-03-04T10:52:24.649Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:52:24.650Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:52:24.650Z] HypeFlow AI agent run complete
+[2025-03-04T10:52:45.231Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:52:45.232Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:52:45.232Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:52:45.232Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:52:45.232Z] Analyzing 11 unique tweets
+[2025-03-04T10:52:45.282Z] Overall sentiment score: 0.7027
+[2025-03-04T10:52:45.283Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:52:45.283Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:52:45.283Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:52:45.283Z] Recording sentiment data on-chain...
+[2025-03-04T10:52:45.284Z] Sentiment recording result: mock-sentiment-tx-hash-1741085565283
+[2025-03-04T10:52:45.284Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:52:45.284Z] Would execute: Buy 50 APT
+[2025-03-04T10:52:45.986Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:52:45.987Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:52:45.987Z] HypeFlow AI agent run complete
+[2025-03-04T10:55:45.791Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:55:45.792Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:55:45.793Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:55:45.793Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:55:45.793Z] Analyzing 11 unique tweets
+[2025-03-04T10:55:45.843Z] Overall sentiment score: 0.7027
+[2025-03-04T10:55:45.844Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:55:45.844Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:55:45.844Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:55:45.844Z] Recording sentiment data on-chain...
+[2025-03-04T10:55:45.845Z] Sentiment recording result: mock-sentiment-tx-hash-1741085745845
+[2025-03-04T10:55:45.845Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:55:45.845Z] Would execute: Buy 50 APT
+[2025-03-04T10:55:46.731Z] Posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:55:46.732Z] HypeFlow AI agent run complete
+[2025-03-04T10:59:34.435Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:59:34.436Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:59:34.436Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:59:34.437Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:59:34.437Z] Analyzing 11 unique tweets
+[2025-03-04T10:59:34.487Z] Overall sentiment score: 0.7027
+[2025-03-04T10:59:34.487Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:59:34.488Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:59:34.488Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:59:34.488Z] Recording sentiment data on-chain...
+[2025-03-04T10:59:34.489Z] Sentiment recording result: mock-sentiment-tx-hash-1741085974488
+[2025-03-04T10:59:34.489Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:59:34.489Z] Would execute: Buy 50 APT
+[2025-03-04T10:59:35.221Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:59:35.222Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:59:35.223Z] HypeFlow AI agent run complete
+[2025-03-04T10:59:43.472Z] Starting HypeFlow AI agent run...
+[2025-03-04T10:59:43.473Z] Getting mock tweets for #Aptos...
+[2025-03-04T10:59:43.473Z] Scheduling future runs every 10 minutes
+[2025-03-04T10:59:43.474Z] Found 11 mock tweets for #Aptos
+[2025-03-04T10:59:43.474Z] Analyzing 11 unique tweets
+[2025-03-04T10:59:43.532Z] Overall sentiment score: 0.7027
+[2025-03-04T10:59:43.532Z] Decision: BUY (Confidence: 0.50)
+[2025-03-04T10:59:43.533Z] Reason: Positive sentiment (0.70) above threshold (0.4). Recommend buying.
+[2025-03-04T10:59:43.533Z] Executing on-chain action: BUY amount=50 confidence=0.50
+[2025-03-04T10:59:43.533Z] Recording sentiment data on-chain...
+[2025-03-04T10:59:43.534Z] Sentiment recording result: mock-sentiment-tx-hash-1741085983533
+[2025-03-04T10:59:43.534Z] Running in MOCK mode - simulating transaction for BUY
+[2025-03-04T10:59:43.534Z] Would execute: Buy 50 APT
+[2025-03-04T10:59:44.143Z] Error posting to Twitter: Error: Request failed with code 403
+[2025-03-04T10:59:44.143Z] Would have posted to Twitter: HypeFlow AI just bought 50 $APT because Twitter sentiment is  positive! #AptosHype #Web3 #HypeFlowAI
+[2025-03-04T10:59:44.144Z] HypeFlow AI agent run complete
