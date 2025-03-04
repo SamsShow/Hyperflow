@@ -67,21 +67,21 @@ const CONFIG: {
 // Aptos client is initialized from src/lib/aptos.ts
 
 // Comment out Twitter API initialization
-// let twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
-// if (
-//   process.env.TWITTER_API_KEY &&
-//   process.env.TWITTER_API_SECRET &&
-//   process.env.TWITTER_ACCESS_TOKEN &&
-//   process.env.TWITTER_ACCESS_TOKEN_SECRET
-// ) {
-//   // For posting tweets we need user context auth (not just bearer token)
-//   twitterClient = new TwitterApi({
-//     appKey: process.env.TWITTER_API_KEY,
-//     appSecret: process.env.TWITTER_API_SECRET,
-//     accessToken: process.env.TWITTER_ACCESS_TOKEN,
-//     accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-//   });
-// }
+let twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
+if (
+  process.env.TWITTER_API_KEY &&
+  process.env.TWITTER_API_SECRET &&
+  process.env.TWITTER_ACCESS_TOKEN &&
+  process.env.TWITTER_ACCESS_SECRET
+) {
+  // For posting tweets we need user context auth (not just bearer token)
+  twitterClient = new TwitterApi({
+    appKey: process.env.TWITTER_API_KEY,
+    appSecret: process.env.TWITTER_API_SECRET,
+    accessToken: process.env.TWITTER_ACCESS_TOKEN,
+    accessSecret: process.env.TWITTER_ACCESS_SECRET,
+  });
+}
 
 /**
  * Log message to file and console
@@ -98,21 +98,22 @@ function log(message: string) {
  */
 async function postToTwitter(message: string) {
   // Comment out Twitter posting functionality
-  // if (!CONFIG.twitterPostResults || !twitterClient) {
-  //   log("Twitter posting disabled or client not initialized");
-  //   return;
-  // }
+  if (!CONFIG.twitterPostResults || !twitterClient) {
+    log("Twitter posting disabled or client not initialized");
+    return;
+  }
 
-  // try {
-  //   const response = await twitterClient.v2.tweet(message);
-  //   log(`Posted to Twitter: ${message}`);
-  //   return response;
-  // } catch (error) {
-  //   log(`Error posting to Twitter: ${error}`);
-  // }
+  try {
+    const response = await twitterClient.v2.tweet(message);
+    log(`Posted to Twitter: ${message}`);
+    return response;
+  } catch (error) {
+    log(`Error posting to Twitter: ${error}`);
+  }
 
   // Just log the message instead
   log(`Would have posted to Twitter: ${message}`);
+  console.log("_____________________oh yeahh_____________________");
   return null;
 }
 
